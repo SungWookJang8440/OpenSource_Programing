@@ -1,0 +1,6 @@
+# 1. .gitignore 파일 생성 (파이썬 캐시 파일 무시)
+echo "__pycache__/" > .gitignore
+
+# 2. 지금까지 작업한 모든 파일 스테이징 및 커밋
+git add .
+git commit -m "feat: 포트폴리오 API 기능 구현 및 필수 파일 세팅"
