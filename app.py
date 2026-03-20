@@ -1,9 +1,8 @@
 from flask import Flask, request
-from validator import validate_password  # 우리가 TADD로 만든 함수 임포트!
+from validator import validate_password
 
 app = Flask(__name__)
 
-# --- 기존 코드 유지 ---
 @app.route("/")
 def index():
     return "Welcome to My Development Journal API"
@@ -16,22 +15,30 @@ def profile():
 def skills():
     return "Python"
 
-@app.route("/register")
+# --- 🎯 4단계 완벽 대응: 웹 라우트 및 클라이언트 검증 추가 ---
+@app.route("/register", methods=['GET', 'POST'])
 def register():
-    # URL 파라미터로 비밀번호를 입력받습니다 (예: ?pw=Abc1234)
-    pwd = request.args.get('pw')
-    
-    if not pwd:
-        return "비밀번호를 입력해주세요. (예시 주소: /register?pw=자신의비밀번호)"
-    
-    # TADD로 안전성이 보장된 함수로 검증!
-    result = validate_password(pwd)
-    
-    if result["is_valid"]:
-        return f"입력하신 '{pwd}'는 아주 안전한 비밀번호입니다! (회원가입 통과)"
+    if request.method == 'POST':
+        # 폼에서 입력받은 비밀번호를 가져와 서버 단에서 TADD 로직으로 검증합니다.
+        pwd = request.form.get('pw')
+        result = validate_password(pwd)
+        
+        if result["is_valid"]:
+            return f"입력하신 비밀번호는 아주 안전합니다! (서버 검증 통과) <br><br><a href='/register'>다시 테스트하기</a>"
+        else:
+            return f"비밀번호 검증 실패!<br>원인: {result['reasons']} <br><br><a href='/register'>돌아가기</a>"
     else:
-        # 실패한 이유(reasons)를 클라이언트(화면)에 보여줍니다.
-        return f"비밀번호 검증 실패!<br>원인: {result['reasons']}"
+        # GET 요청 시 사용자에게 입력 폼을 보여줍니다.
+        # HTML5 속성(required, minlength="8")을 통한 client-side verification 적용!
+        return '''
+            <h3>관리자 회원가입 (비밀번호 검증 테스트)</h3>
+            <form method="POST" action="/register">
+                <label>비밀번호 입력 : </label>
+                <input type="password" name="pw" required minlength="8" placeholder="8자 이상, 대문자/숫자 포함">
+                <button type="submit">서버로 전송</button>
+            </form>
+            <p>※ 클라이언트 검증: 8자 미만 입력 시 브라우저가 자체적으로 경고를 띄웁니다.</p>
+        '''
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
