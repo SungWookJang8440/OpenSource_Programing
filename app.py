@@ -1,25 +1,55 @@
-from flask import Flask, request
+from flask import Flask, render_template, request
 from validator import validate_password
 
 app = Flask(__name__)
 
+# 프로필 데이터 (유지)
+PROFILE = {
+    "name": "장성욱",
+    "tagline": "Computer Science Student & Developer",
+    "description": "경북대학교 컴퓨터학부 학생으로, 다양한 분야의 프로젝트를 경험하고 있습니다. GPU 공유 시스템, GStreamer 비디오 처리 등 실무 중심의 프로젝트를 진행했습니다.",
+    "education": "경북대학교 컴퓨터학부",
+    "interests": "Backend Development, System Programming, AI",
+    "goals": "성능과 효율성을 고려한 시스템 개발자가 되는 것",
+    "email": "your.email@example.com",
+    "github": "https://github.com/SungWookJang8440",
+    "github_username": "SungWookJang8440",
+}
+
+# 프로젝트 데이터 (유지)
+PROJECTS = [
+    {
+        "title": "GStreamer Video Analyzer",
+        "description": "축구 경기 영상에서 태클 장면을 자동으로 감지하고 분석하는 비디오 처리 시스템.",
+        "tech_stack": ["C", "GStreamer",],
+        "emoji": "⚽",
+        "github": "https://github.com/video-ai-2025/summer2025-team1",
+        "demo": None
+    },
+    {
+        "title": "MLOPS_Image_Clustering",
+        "description": "MLOPS 이미지 클러스터링",
+        "tech_stack": ["Node.js", "Docker", "python"],
+        "emoji": "🧮",
+        "github": "https://github.com/sang-hash/data-model",
+        "demo": None
+    }
+]
+
 @app.route("/")
 def index():
-    return "Welcome to My Development Journal API"
+    # ✨ 리팩토링: Data Clumps 해결! 
+    # 파이썬의 언패킹(**) 연산자를 사용해 9개의 변수를 1줄로 우아하게 전달합니다.
+    return render_template("index.html", **PROFILE, projects=PROJECTS)
 
 @app.route("/profile")
 def profile():
-    return "이름 : 장성욱<br>학력 : 경북대학교 컴퓨터학부"
+    # ✨ 리팩토링: Duplicated Code 해결!
+    return render_template("index.html", **PROFILE, projects=PROJECTS)
 
-@app.route("/skills")
-def skills():
-    return "Python"
-
-# --- 🎯 4단계 완벽 대응: 웹 라우트 및 클라이언트 검증 추가 ---
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # 폼에서 입력받은 비밀번호를 가져와 서버 단에서 TADD 로직으로 검증합니다.
         pwd = request.form.get('pw')
         result = validate_password(pwd)
         
@@ -28,8 +58,6 @@ def register():
         else:
             return f"비밀번호 검증 실패!<br>원인: {result['reasons']} <br><br><a href='/register'>돌아가기</a>"
     else:
-        # GET 요청 시 사용자에게 입력 폼을 보여줍니다.
-        # HTML5 속성(required, minlength="8")을 통한 client-side verification 적용!
         return '''
             <h3>관리자 회원가입 (비밀번호 검증 테스트)</h3>
             <form method="POST" action="/register">
