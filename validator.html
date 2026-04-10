@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ko" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>validator module &mdash; My profile API 1.0 문서</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=25ffd669"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=afa94a99"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="색인" href="genindex.html" />
+    <link rel="search" title="검색" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            My profile API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">validator module</a><ul>
+<li><a class="reference internal" href="#validator.LengthRule"><code class="docutils literal notranslate"><span class="pre">LengthRule</span></code></a><ul>
+<li><a class="reference internal" href="#validator.LengthRule.MIN_LENGTH"><code class="docutils literal notranslate"><span class="pre">LengthRule.MIN_LENGTH</span></code></a></li>
+<li><a class="reference internal" href="#validator.LengthRule.validate"><code class="docutils literal notranslate"><span class="pre">LengthRule.validate()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validator.NumberRule"><code class="docutils literal notranslate"><span class="pre">NumberRule</span></code></a><ul>
+<li><a class="reference internal" href="#validator.NumberRule.validate"><code class="docutils literal notranslate"><span class="pre">NumberRule.validate()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validator.UpperCaseRule"><code class="docutils literal notranslate"><span class="pre">UpperCaseRule</span></code></a><ul>
+<li><a class="reference internal" href="#validator.UpperCaseRule.validate"><code class="docutils literal notranslate"><span class="pre">UpperCaseRule.validate()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validator.ValidationResult"><code class="docutils literal notranslate"><span class="pre">ValidationResult</span></code></a><ul>
+<li><a class="reference internal" href="#validator.ValidationResult.is_valid"><code class="docutils literal notranslate"><span class="pre">ValidationResult.is_valid</span></code></a></li>
+<li><a class="reference internal" href="#validator.ValidationResult.reasons"><code class="docutils literal notranslate"><span class="pre">ValidationResult.reasons</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validator.ValidationRule"><code class="docutils literal notranslate"><span class="pre">ValidationRule</span></code></a><ul>
+<li><a class="reference internal" href="#validator.ValidationRule.validate"><code class="docutils literal notranslate"><span class="pre">ValidationRule.validate()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validator.validate_password"><code class="docutils literal notranslate"><span class="pre">validate_password()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">My profile API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">validator module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/validator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-validator">
+<span id="validator-module"></span><h1>validator module<a class="headerlink" href="#module-validator" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="validator.LengthRule">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">validator.</span></span><span class="sig-name descname"><span class="pre">LengthRule</span></span><a class="reference internal" href="_modules/validator.html#LengthRule"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.LengthRule" title="Link to this definition"></a></dt>
+<dd><p>기반 클래스: <a class="reference internal" href="#validator.ValidationRule" title="validator.ValidationRule"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidationRule</span></code></a></p>
+<p>비밀번호 최소 길이 검증 규칙</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="validator.LengthRule.MIN_LENGTH">
+<span class="sig-name descname"><span class="pre">MIN_LENGTH</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></span><a class="headerlink" href="#validator.LengthRule.MIN_LENGTH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="validator.LengthRule.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reasons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/validator.html#LengthRule.validate"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.LengthRule.validate" title="Link to this definition"></a></dt>
+<dd><p>비밀번호를 검증하고 실패 시 reasons 리스트에 원인을 추가합니다.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="validator.NumberRule">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">validator.</span></span><span class="sig-name descname"><span class="pre">NumberRule</span></span><a class="reference internal" href="_modules/validator.html#NumberRule"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.NumberRule" title="Link to this definition"></a></dt>
+<dd><p>기반 클래스: <a class="reference internal" href="#validator.ValidationRule" title="validator.ValidationRule"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidationRule</span></code></a></p>
+<p>비밀번호 내 숫자 포함 여부 검증 규칙</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="validator.NumberRule.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reasons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/validator.html#NumberRule.validate"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.NumberRule.validate" title="Link to this definition"></a></dt>
+<dd><p>비밀번호를 검증하고 실패 시 reasons 리스트에 원인을 추가합니다.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="validator.UpperCaseRule">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">validator.</span></span><span class="sig-name descname"><span class="pre">UpperCaseRule</span></span><a class="reference internal" href="_modules/validator.html#UpperCaseRule"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.UpperCaseRule" title="Link to this definition"></a></dt>
+<dd><p>기반 클래스: <a class="reference internal" href="#validator.ValidationRule" title="validator.ValidationRule"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValidationRule</span></code></a></p>
+<p>비밀번호 내 대문자 포함 여부 검증 규칙</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="validator.UpperCaseRule.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reasons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/validator.html#UpperCaseRule.validate"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.UpperCaseRule.validate" title="Link to this definition"></a></dt>
+<dd><p>비밀번호를 검증하고 실패 시 reasons 리스트에 원인을 추가합니다.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="validator.ValidationResult">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">validator.</span></span><span class="sig-name descname"><span class="pre">ValidationResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_valid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reasons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/validator.html#ValidationResult"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.ValidationResult" title="Link to this definition"></a></dt>
+<dd><p>기반 클래스: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>비밀번호 검증 결과를 담는 객체</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="validator.ValidationResult.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><a class="headerlink" href="#validator.ValidationResult.is_valid" title="Link to this definition"></a></dt>
+<dd><p>비밀번호가 모든 규칙을 통과했는지 여부</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="validator.ValidationResult.reasons">
+<span class="sig-name descname"><span class="pre">reasons</span></span><a class="headerlink" href="#validator.ValidationResult.reasons" title="Link to this definition"></a></dt>
+<dd><p>통과하지 못했을 경우의 실패 원인 목록</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="validator.ValidationRule">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">validator.</span></span><span class="sig-name descname"><span class="pre">ValidationRule</span></span><a class="reference internal" href="_modules/validator.html#ValidationRule"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.ValidationRule" title="Link to this definition"></a></dt>
+<dd><p>기반 클래스: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>비밀번호 검증 규칙의 기본 인터페이스</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="validator.ValidationRule.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reasons</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/validator.html#ValidationRule.validate"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.ValidationRule.validate" title="Link to this definition"></a></dt>
+<dd><p>비밀번호를 검증하고 실패 시 reasons 리스트에 원인을 추가합니다.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="validator.validate_password">
+<span class="sig-prename descclassname"><span class="pre">validator.</span></span><span class="sig-name descname"><span class="pre">validate_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#validator.ValidationResult" title="validator.ValidationResult"><span class="pre">ValidationResult</span></a></span></span><a class="reference internal" href="_modules/validator.html#validate_password"><span class="viewcode-link"><span class="pre">[소스]</span></span></a><a class="headerlink" href="#validator.validate_password" title="Link to this definition"></a></dt>
+<dd><p>주어진 비밀번호가 보안 규칙을 모두 만족하는지 검사합니다.</p>
+<p>Strategy 패턴을 사용하여 구성된 여러 규칙(길이, 숫자, 대문자)을 순차적으로 검증합니다.</p>
+<dl class="field-list simple">
+<dt class="field-odd">매개변수<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>password</strong> (<em>str</em>) – 검증할 평문 비밀번호 문자열.</p>
+</dd>
+<dt class="field-even">반환<span class="colon">:</span></dt>
+<dd class="field-even"><p>검증 통과 여부(is_valid)와 실패 원인(reasons)을 포함한 객체.</p>
+</dd>
+<dt class="field-odd">반환 형식<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#validator.ValidationResult" title="validator.ValidationResult">ValidationResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, 장성욱.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
