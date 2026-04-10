@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request
+from flasgger import Swagger 
 from validator import validate_password
 
 app = Flask(__name__)
+# Swagger UI 초기화 
+swagger = Swagger(app)
 
-# 프로필 데이터 (유지)
 PROFILE = {
     "name": "장성욱",
     "tagline": "Computer Science Student & Developer",
@@ -16,12 +18,11 @@ PROFILE = {
     "github_username": "SungWookJang8440",
 }
 
-# 프로젝트 데이터 (유지)
 PROJECTS = [
     {
         "title": "GStreamer Video Analyzer",
         "description": "축구 경기 영상에서 태클 장면을 자동으로 감지하고 분석하는 비디오 처리 시스템.",
-        "tech_stack": ["C", "GStreamer",],
+        "tech_stack": ["C", "GStreamer"],
         "emoji": "⚽",
         "github": "https://github.com/video-ai-2025/summer2025-team1",
         "demo": None
@@ -38,21 +39,37 @@ PROJECTS = [
 
 @app.route("/")
 def index():
-    # ✨ 리팩토링: Data Clumps 해결! 
-    # 파이썬의 언패킹(**) 연산자를 사용해 9개의 변수를 1줄로 우아하게 전달합니다.
+    """메인 홈페이지 렌더링
+    사용자의 프로필과 프로젝트 목록을 포함한 메인 페이지를 반환합니다.
+    """
     return render_template("index.html", **PROFILE, projects=PROJECTS)
 
 @app.route("/profile")
 def profile():
-    # ✨ 리팩토링: Duplicated Code 해결!
+    """프로필 페이지 렌더링
+    """
     return render_template("index.html", **PROFILE, projects=PROJECTS)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    """비밀번호 안전성 검증 API
+    사용자가 입력한 비밀번호가 보안 규칙(길이, 숫자, 대문자)을 충족하는지 검증합니다.
+    ---
+    tags:
+      - Authentication
+    parameters:
+      - name: pw
+        in: formData
+        type: string
+        required: true
+        description: 검증할 비밀번호 (8자 이상, 대문자 및 숫자 포함)
+    responses:
+      200:
+        description: 비밀번호 검증 결과 (안전함 또는 실패 원인 반환)
+    """
     if request.method == 'POST':
         pwd = request.form.get('pw')
         result = validate_password(pwd)
-        
         if result["is_valid"]:
             return f"입력하신 비밀번호는 아주 안전합니다! (서버 검증 통과) <br><br><a href='/register'>다시 테스트하기</a>"
         else:

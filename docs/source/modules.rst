@@ -1,0 +1,8 @@
+my_profile
+==========
+
+.. toctree::
+   :maxdepth: 4
+
+   app
+   validator
