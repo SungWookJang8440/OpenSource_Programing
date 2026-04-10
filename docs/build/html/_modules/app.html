@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ko" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>app &mdash; My profile API 1.0 문서</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=25ffd669"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=afa94a99"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="색인" href="../genindex.html" />
+    <link rel="search" title="검색" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            My profile API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">My profile API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">모듈 코드</a></li>
+      <li class="breadcrumb-item active">app</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>app의 소스 코드</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flasgger</span><span class="w"> </span><span class="kn">import</span> <span class="n">Swagger</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">validator</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_password</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="c1"># Swagger UI 초기화 </span>
+<span class="n">swagger</span> <span class="o">=</span> <span class="n">Swagger</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+<span class="n">PROFILE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;장성욱&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tagline&quot;</span><span class="p">:</span> <span class="s2">&quot;Computer Science Student &amp; Developer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;경북대학교 컴퓨터학부 학생으로, 다양한 분야의 프로젝트를 경험하고 있습니다. GPU 공유 시스템, GStreamer 비디오 처리 등 실무 중심의 프로젝트를 진행했습니다.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;education&quot;</span><span class="p">:</span> <span class="s2">&quot;경북대학교 컴퓨터학부&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;interests&quot;</span><span class="p">:</span> <span class="s2">&quot;Backend Development, System Programming, AI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;goals&quot;</span><span class="p">:</span> <span class="s2">&quot;성능과 효율성을 고려한 시스템 개발자가 되는 것&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;your.email@example.com&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;github&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/SungWookJang8440&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;github_username&quot;</span><span class="p">:</span> <span class="s2">&quot;SungWookJang8440&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">PROJECTS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;GStreamer Video Analyzer&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;축구 경기 영상에서 태클 장면을 자동으로 감지하고 분석하는 비디오 처리 시스템.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tech_stack&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;GStreamer&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;emoji&quot;</span><span class="p">:</span> <span class="s2">&quot;⚽&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;github&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/video-ai-2025/summer2025-team1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;demo&quot;</span><span class="p">:</span> <span class="kc">None</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;MLOPS_Image_Clustering&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;MLOPS 이미지 클러스터링&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tech_stack&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Node.js&quot;</span><span class="p">,</span> <span class="s2">&quot;Docker&quot;</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;emoji&quot;</span><span class="p">:</span> <span class="s2">&quot;🧮&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;github&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/sang-hash/data-model&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;demo&quot;</span><span class="p">:</span> <span class="kc">None</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+<div class="viewcode-block" id="index">
+<a class="viewcode-back" href="../app.html#app.index">[문서]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;메인 홈페이지 렌더링</span>
+<span class="sd">    사용자의 프로필과 프로젝트 목록을 포함한 메인 페이지를 반환합니다.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">PROFILE</span><span class="p">,</span> <span class="n">projects</span><span class="o">=</span><span class="n">PROJECTS</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="profile">
+<a class="viewcode-back" href="../app.html#app.profile">[문서]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/profile&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">profile</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;프로필 페이지 렌더링</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">PROFILE</span><span class="p">,</span> <span class="n">projects</span><span class="o">=</span><span class="n">PROJECTS</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="register">
+<a class="viewcode-back" href="../app.html#app.register">[문서]</a>
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/register&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;비밀번호 안전성 검증 API</span>
+<span class="sd">    사용자가 입력한 비밀번호가 보안 규칙(길이, 숫자, 대문자)을 충족하는지 검증합니다.</span>
+<span class="sd">    ---</span>
+<span class="sd">    tags:</span>
+<span class="sd">      - Authentication</span>
+<span class="sd">    parameters:</span>
+<span class="sd">      - name: pw</span>
+<span class="sd">        in: formData</span>
+<span class="sd">        type: string</span>
+<span class="sd">        required: true</span>
+<span class="sd">        description: 검증할 비밀번호 (8자 이상, 대문자 및 숫자 포함)</span>
+<span class="sd">    responses:</span>
+<span class="sd">      200:</span>
+<span class="sd">        description: 비밀번호 검증 결과 (안전함 또는 실패 원인 반환)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">pwd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pw&#39;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">validate_password</span><span class="p">(</span><span class="n">pwd</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;is_valid&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;입력하신 비밀번호는 아주 안전합니다! (서버 검증 통과) &lt;br&gt;&lt;br&gt;&lt;a href=&#39;/register&#39;&gt;다시 테스트하기&lt;/a&gt;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;비밀번호 검증 실패!&lt;br&gt;원인: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;reasons&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &lt;br&gt;&lt;br&gt;&lt;a href=&#39;/register&#39;&gt;돌아가기&lt;/a&gt;&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            &lt;h3&gt;관리자 회원가입 (비밀번호 검증 테스트)&lt;/h3&gt;</span>
+<span class="s1">            &lt;form method=&quot;POST&quot; action=&quot;/register&quot;&gt;</span>
+<span class="s1">                &lt;label&gt;비밀번호 입력 : &lt;/label&gt;</span>
+<span class="s1">                &lt;input type=&quot;password&quot; name=&quot;pw&quot; required minlength=&quot;8&quot; placeholder=&quot;8자 이상, 대문자/숫자 포함&quot;&gt;</span>
+<span class="s1">                &lt;button type=&quot;submit&quot;&gt;서버로 전송&lt;/button&gt;</span>
+<span class="s1">            &lt;/form&gt;</span>
+<span class="s1">            &lt;p&gt;※ 클라이언트 검증: 8자 미만 입력 시 브라우저가 자체적으로 경고를 띄웁니다.&lt;/p&gt;</span>
+<span class="s1">        &#39;&#39;&#39;</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, 장성욱.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
